@@ -27,11 +27,6 @@ function App() {
     console.log('src / App.js > App() > handleSubmit() > state ', state);
   };
 
-  // dispatch TOGGLE_COMPLETE 
-  // const handleToggle = e => {
-  //   dispatch({ type: "TOGGLE_COMPLETE" });
-  // };
-
   // dispatch REMOVE_TODO? Will think about this one last... 
   const handleClear = e => {
     e.preventDefault();
@@ -54,33 +49,6 @@ function App() {
           <TodoItem key={todo.id} task={todo}/>
         );
       })}
-
-      {/* {state.map((todo) => {
-        return (
-          <div key={todo.id}>
-            <h1>{todo.item}</h1>
-          </div>
-        );
-      })} */}
-
-      {/* <h1>ToDo List</h1>
-      <button style={{ cursor: "pointer" }}>
-        Add item
-      </button>
-      {!state.completed ? (
-        <h1>{state.item}</h1>
-      ) : (
-        <div>
-          <h1>{state.item}</h1>
-          <input
-            type="text"
-            name="newItemText"
-            value={newTodo}
-            onChange={handleChanges}
-          />
-          <button onClick={handleSubmit}>Add Task</button>
-        </div>
-      )} */}
     </div>
   );
 }

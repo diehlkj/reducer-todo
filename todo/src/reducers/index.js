@@ -1,32 +1,37 @@
 export const initialState = [
     {
-        item: 'Learn about reducers',
-        completed: false,
+        name: 'Learn about reducers',
+        complete: false,
         id: 3820467589
-    },
-    {
-        item: 'Go get gas',
-        completed: false,
-        id: 9822987589
     }
 ];
   
 export const todoReducer = (state, action) => {
     switch (action.type) {
-        case "ADD_TODO":
+        case 'ADD_TODO':
             return [
-                action.payload,
-                ...state
-            ];
-        case "TOGGLE_COMPLETED":
-            return { ...state, completed: !state.completed };
-        case "REMOVE_TODO":
+                ...state,
+                {
+                    id: Date.now(),
+                    name: action.payload,
+                    complete: false
+                }
+            ]
+        case 'TOGGLE_COMPLETED':
+            return state.map(todo =>
+                (todo.id === action.id)
+                    ? { ...todo, complete: !todo.complete }
+                    : todo
+            )
+
+        case 'REMOVE_TODO':
             let completedTodo = state.filter(
-                todo => todo.completed === false
-              );
+                todo=> todo.complete === false
+            );
             return completedTodo
-      default:
-        return state;
+        default:
+            return state
     }
+    
 };
   

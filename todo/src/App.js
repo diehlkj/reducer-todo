@@ -1,56 +1,85 @@
 import React, { useState, useReducer } from 'react';
 import { initialState, todoReducer } from "./reducers";
-import TodoItem from "./components/TodoItem";
+import ToDoItem from "./components/TodoItem";
 import './App.css';
 
 function App() {
 
   const [state, dispatch] = useReducer(todoReducer, initialState);
   const [newTodo, setNewTodo] = useState("");
-  // Handle text input changes
+
+
+  // Handle text input changes ==================================
   const handleChanges = e => {
     setNewTodo(e.target.value);
   };
 
-  console.log('State:::::::: ', state);
 
-  // dispatch ADD_TODO with payload: newTodo
+  // dispatch ADD_TODO with payload: newTodo ==================================
   const handleSubmit = e => {
     e.preventDefault();
-    const newPayload = {
-      item: newTodo,
-      completed: true,
-      id: Date.now()
-    };
-    console.log('src / App.js > App() > handleSubmit() > newTodo ', newPayload);
-    dispatch({ type: "ADD_TODO", payload: newPayload });
-    console.log('src / App.js > App() > handleSubmit() > state ', state);
-  };
+    dispatch({ type: "ADD_TODO", payload: newTodo });
+    setNewTodo("");
+  }; 
+  
 
-  // dispatch REMOVE_TODO? Will think about this one last... 
+
+  // dispatch TOGGLE_COMPLETED and pass into the todo item ==================================
+    const toggleCompleted = (id) => {
+        dispatch({ type: 'TOGGLE_COMPLETED', id: id});
+    };
+
+
+  // dispatch REMOVE_TODO? Will think about this one last...  ==================================
   const handleClear = e => {
     e.preventDefault();
     dispatch({ type: "REMOVE_TODO" });
-    console.log("handleClear: ", state);
   };
+
+
   return (
     <div>
+      {state.map(todo => 
+          <ToDoItem 
 
+          key={todo.id}
+          name={todo.name}
+          state={state}
+          complete={todo.complete}
+          todo={todo}
+          toggleCompleted={toggleCompleted}
+          />
+      )}
       <form>
         <input type="text" name="newTodo" value={newTodo} onChange={handleChanges}/>
         <button onClick={handleSubmit}>Add ToDo</button>
         <button onClick={handleClear}>Remove Complete</button>
       </form>
-      
-
-      {state.map((todo) => {
-        console.log("todo item name: ", todo.item, " todo: ", todo);
-        return (
-          <TodoItem key={todo.id} task={todo}/>
-        );
-      })}
     </div>
   );
-}
-
+};
+  // return (
+  //     <div>
+  //         {state.map(todo => 
+  //             <ToDoItem
+  //             key={todo.id}
+  //             name={todo.name}
+  //             state={state}
+  //             complete={todo.complete}
+  //             todo={todo}
+  //             toggleCompleted={toggleCompleted}  
+  //             />
+  //         )}
+  //         <input
+  //         className="todoInput"
+  //         type="text"
+  //         name="newTodoText"
+  //         value={newTodo}
+  //         onChange={handleChanges}
+  //         />
+  //         <button onClick={handleSubmit}>Add</button>
+  //         <button onClick={handleClear}>Remove Completed Items</button>
+  //     </div>
+  // )
+// };
 export default App;
